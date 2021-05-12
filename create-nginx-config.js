@@ -1,11 +1,5 @@
-const args = require("arg");
 const { execSync } = require("child_process");
 const fs = require("fs");
-
-const spec = {
-  "--domain": String,
-  "--port": String,
-};
 
 const createSymLink = (domain) => {
   try {
@@ -44,4 +38,4 @@ const generateConfig = async (domain, port) => {
   }
 };
 
-module.export = { generateConfig };
+module.exports = { generateConfig };
