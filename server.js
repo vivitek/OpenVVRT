@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const { generateConfig } = require("./create-nginx-config");
+const nginx = require("./create-nginx-config");
 const app = express();
 
 app.use(cors());
@@ -14,9 +14,10 @@ const PORT = process.env.PORT || 4000;
 app.post("/create", async (req, res) => {
   const { domain, port } = req.body;
   try {
-    await generateConfig(domain, port);
+    await nginx.generateConfig(domain, port);
     res.json({ status: "success", message: "config created" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ status: "fail", message: "config failed" });
   }
 });
