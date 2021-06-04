@@ -1,10 +1,12 @@
 const { execSync } = require("child_process");
 const fs = require("fs");
 
+const NGINX_PATH = "/etx/nginx/sites-available";
+
 const createSymLink = (domain) => {
   try {
     execSync(
-      `sudo ln -s /etc/nginx/sites-available/${domain}.conf /etc/nginx/sites-enabled`
+      `sudo ln -s ${NGINX_PATH}/${domain}.conf /etc/nginx/sites-enabled`
     );
   } catch (error) {
     console.error(`Could not create symbolic link for domain ${domain}`);
@@ -26,10 +28,7 @@ const generateConfig = async (domain, port) => {
     .replace("example.com", domain)
     .replace(":1111", ":" + port);
   try {
-    fs.writeFileSync(
-      `/etc/nginx/sites-available/${domain}.conf`,
-      sampleFileString
-    );
+    fs.writeFileSync(`${NGINX_PATH}/${domain}.conf`, sampleFileString);
     createSymLink(domain);
     restartNginx();
     generateCertificate(domain);
@@ -38,4 +37,8 @@ const generateConfig = async (domain, port) => {
   }
 };
 
-module.exports = { generateConfig };
+const isDomainAvailable = async (domain) => {
+  return !fs.existsSync(`${NGINX_PATH}/${domain}.conf`);
+};
+
+module.exports = { generateConfig, isDomainAvailable };
