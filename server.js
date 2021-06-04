@@ -28,6 +28,7 @@ app.get("/uuid", async (req, res) => {
   while (nginx.isDomainAvailable(id)) {
     id = uuid.v4();
   }
+  res.json({ status: "success", message: "uuid created", data: { uuid: id } });
 });
 
 app.listen(PORT, () => {
