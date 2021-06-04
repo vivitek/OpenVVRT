@@ -24,8 +24,10 @@ app.post("/create", async (req, res) => {
 });
 
 app.get("/uuid", async (req, res) => {
-  const id = uuid.v4()
-  while 
+  let id = uuid.v4();
+  while (nginx.isDomainAvailable(id)) {
+    id = uuid.v4();
+  }
 });
 
 app.listen(PORT, () => {
