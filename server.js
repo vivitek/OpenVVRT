@@ -25,7 +25,7 @@ app.post("/create", async (req, res) => {
 
 app.get("/uuid", async (req, res) => {
   let id = uuid.v4();
-  while (nginx.isDomainAvailable(id)) {
+  while (!nginx.isDomainAvailable(id)) {
     id = uuid.v4();
   }
   res.json({ status: "success", message: "uuid created", data: { uuid: id } });
