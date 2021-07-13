@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const nginx = require("./create-nginx-config");
+const uuid = require("uuid");
 const app = express();
 
 app.use(cors());
@@ -20,6 +21,14 @@ app.post("/create", async (req, res) => {
     console.log(error);
     res.status(500).json({ status: "fail", message: "config failed" });
   }
+});
+
+app.get("/uuid", async (req, res) => {
+  let id = uuid.v4();
+  while (!nginx.isDomainAvailable(id)) {
+    id = uuid.v4();
+  }
+  res.json({ status: "success", message: "uuid created", data: { uuid: id } });
 });
 
 app.listen(PORT, () => {
