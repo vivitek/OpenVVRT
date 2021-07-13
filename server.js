@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const getPort = require('get-port');
 const nginx = require("./create-nginx-config");
 const uuid = require("uuid");
 const app = express();
@@ -29,6 +30,10 @@ app.get("/uuid", async (req, res) => {
     id = uuid.v4();
   }
   res.json({ status: "success", message: "uuid created", data: { uuid: id } });
+})
+
+app.get("/port", async(req, res) => {
+
 });
 
 app.listen(PORT, () => {
