@@ -1,5 +1,6 @@
 const { execSync } = require("child_process");
 const fs = require("fs");
+const path = require("path");
 
 const NGINX_PATH = "/etx/nginx/sites-available";
 
@@ -41,4 +42,14 @@ const isDomainAvailable = async (domain) => {
   return !fs.existsSync(`${NGINX_PATH}/${domain}.conf`);
 };
 
-module.exports = { generateConfig, isDomainAvailable };
+const isPortAvailable = (port) => {
+  fs.readdirSync(NGINX_PATH).forEach((e) => {
+    const p = path.resolve(NGINX_PATH, e);
+    const content = fs.readFileSync(p);
+    if (content.includes(`:${port}`)) {
+      return false;
+    }
+  })
+}
+
+module.exports = { generateConfig, isDomainAvailable, isPortAvailable };
