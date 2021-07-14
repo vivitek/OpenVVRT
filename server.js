@@ -33,7 +33,11 @@ app.get("/uuid", async (req, res) => {
 })
 
 app.get("/port", async(req, res) => {
-
+  let port = await getPort();
+  while (!nginx.isPortAvailable(port)) {
+    port = await getPort();
+  }
+  res.json({ status: "success", message: "port created", data: { port } });
 });
 
 app.listen(PORT, () => {
