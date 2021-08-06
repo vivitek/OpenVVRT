@@ -5,7 +5,9 @@ const morgan = require("morgan");
 const getPort = require('get-port');
 const nginx = require("./create-nginx-config");
 const uuid = require("uuid");
+const { registerUrl } = require("./digitalocean");
 const app = express();
+require('dotenv').config()
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -14,9 +16,10 @@ app.use(morgan("dev"));
 const PORT = process.env.PORT || 4000;
 
 app.post("/create", async (req, res) => {
-  const { domain, port } = req.body;
+  const { id, port } = req.body;
   try {
-    await nginx.generateConfig(domain, port);
+    await registerUrl(id);
+    await nginx.generateConfig(id, port);
     res.json({ status: "success", message: "config created" });
   } catch (error) {
     console.log(error);
