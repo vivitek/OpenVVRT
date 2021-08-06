@@ -22,7 +22,8 @@ const generateCertificate = (domain) => {
   execSync(`sudo certbot --nginx --domain ${domain}`);
 };
 
-const generateConfig = async (domain, port) => {
+const generateConfig = async (id, port) => {
+  const domain = `${id}.openvivi.com`;
   const sampleFile = fs.readFileSync("./config/sample_conf.conf");
   const sampleFileString = sampleFile
     .toString()
