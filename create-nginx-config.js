@@ -2,7 +2,7 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const NGINX_PATH = "/etx/nginx/sites-available";
+const NGINX_PATH = "/etc/nginx/sites-available";
 
 const createSymLink = (domain) => {
   try {
@@ -49,7 +49,7 @@ const isPortAvailable = (port) => {
     if (content.includes(`:${port}`)) {
       return false;
     }
-  })
-}
+  });
+};
 
 module.exports = { generateConfig, isDomainAvailable, isPortAvailable };
