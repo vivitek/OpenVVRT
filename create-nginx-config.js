@@ -51,6 +51,7 @@ const isPortAvailable = (port) => {
       return false;
     }
   });
+  return true;
 };
 
 module.exports = { generateConfig, isDomainAvailable, isPortAvailable };
