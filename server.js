@@ -21,7 +21,7 @@ app.post("/api/tunnels", (req, res) => {
   if (!fs.existsSync("/home/tunnel/.ssh")) {
     fs.mkdirSync("/home/tunnel/.ssh");
   }
-  fs.appendFileSync("/home/tunnel/.ssh/authorized_key", `${ssh}\n`);
+  fs.appendFileSync("/home/tunnel/.ssh/authorized_keys", `${ssh}\n`);
   res.json({ status: "success", message: "ssh key upload" });
 });
 
