@@ -33,7 +33,7 @@ const generateConfig = async (id, port) => {
     fs.writeFileSync(`${NGINX_PATH}/${domain}.conf`, sampleFileString);
     createSymLink(domain);
     restartNginx();
-    generateCertificate(domain);
+    //generateCertificate(domain);
   } catch (error) {
     console.error("something went wrong while trying to execute commands.");
   }
