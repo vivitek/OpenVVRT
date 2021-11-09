@@ -19,7 +19,11 @@ const restartNginx = () => {
 };
 
 const generateCertificate = (domain) => {
-  execSync(`sudo certbot --nginx --domain ${domain}`);
+  try {
+     execSync(`sudo certbot -n --redirect --nginx --domain ${domain}`);
+  } catch (e) {
+     console.log(`could not get certificate: ${error}`)
+  }
 };
 
 const generateConfig = async (id, port) => {
@@ -33,7 +37,7 @@ const generateConfig = async (id, port) => {
     fs.writeFileSync(`${NGINX_PATH}/${domain}.conf`, sampleFileString);
     createSymLink(domain);
     restartNginx();
-    //generateCertificate(domain);
+    generateCertificate(domain);
   } catch (error) {
     console.error("something went wrong while trying to execute commands.");
   }

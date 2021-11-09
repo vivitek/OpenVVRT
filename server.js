@@ -29,7 +29,9 @@ app.post("/create", async (req, res) => {
   const { id, port } = req.body;
   try {
     await registerUrl(id);
+    console.log("registered url")
     await nginx.generateConfig(id, port);
+    console.log("generated url config")
     res.json({ status: "success", message: "config created" });
   } catch (error) {
     console.log(error);
